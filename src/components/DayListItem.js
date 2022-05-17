@@ -8,8 +8,10 @@ import "components/DayListItem.scss";
 export default function DayListItem(props) {
   const { name, spots, selected, setDay } = props;
 
-  const formatSpots = () => {
-
+  const formatSpots = (spots) => {
+    if (!spots) return "no spots remaining";
+    if (spots === 1) return "1 spot remaining";
+    return `${spots} spots remaining`;
   }
 
   const dayListItemClass = classNames("day-list__item", {
@@ -20,7 +22,7 @@ export default function DayListItem(props) {
   return (
     <li className={dayListItemClass} onClick={() => setDay(name)}>
       <h2 className="text--regular">{name}</h2>
-      <h3 className="text--light">{spots} spots remaining</h3>
+      <h3 className="text--light">{formatSpots(spots)}</h3>
     </li>
   );
 }
