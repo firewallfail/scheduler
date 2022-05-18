@@ -11,6 +11,8 @@ export default function InterviewerListItem(props) {
     "interviewers__item--selected": selected
   });
 
+
+
   return (
     <li className={interviewerListItemClass} onClick={() => setInterviewer(id)}>
       <img
@@ -18,7 +20,7 @@ export default function InterviewerListItem(props) {
         src={avatar}
         alt={name}
       />
-      {name}
+      {selected ? name : ""}
     </li>
   );
 }
