@@ -28,12 +28,13 @@ export default function Application() {
       ...state.appointments[id],
       interview: null
     };
-    console.log(appointment);
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
-    console.log(appointments);
+    return axios.delete(`/api/appointments/${id}`)
+      .then(res => setState({ ...state, appointments }))
+      .catch(err => console.log(err));
   }
 
   const [state, setState] = useState({
