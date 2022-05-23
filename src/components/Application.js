@@ -10,8 +10,31 @@ import "components/Application.scss";
 export default function Application() {
 
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview }
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    return axios.put(`/api/appointments/${id}`, { interview })
+      .then(res => setState({ ...state, appointments }))
+      .catch(err => console.log(err));
   };
+
+  function cancelInterview(id) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    console.log(appointment);
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    console.log(appointments);
+  }
 
   const [state, setState] = useState({
     day: "Monday",
@@ -34,6 +57,7 @@ export default function Application() {
         interview={interview}
         interviewers={dailyInterviewers}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
