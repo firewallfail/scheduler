@@ -9,6 +9,10 @@ import "components/Application.scss";
 
 export default function Application() {
 
+  function bookInterview(id, interview) {
+    console.log(id, interview);
+  };
+
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -29,6 +33,7 @@ export default function Application() {
         time={appointment.time}
         interview={interview}
         interviewers={dailyInterviewers}
+        bookInterview={bookInterview}
       />
     );
   });
