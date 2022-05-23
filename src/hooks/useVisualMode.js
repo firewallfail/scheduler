@@ -13,9 +13,7 @@ export default function useVisualMode(initial) {
       setHistory(newHistory);
       return;
     }
-    const newHistory = history;
-    newHistory.push(transition);
-    setHistory(newHistory);
+    setHistory(prev => [...prev, transition]);
   }
 
   const back = () => {
