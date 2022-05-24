@@ -46,7 +46,7 @@ export default function useApplicationData() {
     };
     const days = updateSpots(state, appointments);
     return axios.put(`/api/appointments/${id}`, { interview })
-      .then(res => setState({ ...state, appointments, days }))
+      .then(res => setState(prev => ({ ...prev, appointments, days })))
   };
 
   function cancelInterview(id) {
@@ -60,10 +60,10 @@ export default function useApplicationData() {
     };
     const days = updateSpots(state, appointments);
     return axios.delete(`/api/appointments/${id}`)
-      .then(res => setState({ ...state, appointments, days }))
+      .then(res => setState(prev => ({ ...prev, appointments, days })))
   }
 
-  const setDay = day => setState({ ...state, day });
+  const setDay = day => setState(prev => ({ ...prev, day }));
 
   useEffect(() => {
     Promise.all([
