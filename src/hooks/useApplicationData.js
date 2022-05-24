@@ -10,6 +10,31 @@ export default function useApplicationData() {
     interviewers: {}
   });
 
+  const updateSpots = function(state, appointments) {
+
+    const shallowDays = [...state.days];
+    const shallowDay = [...state.days.filter(x => x.name === state.day)];
+
+    let spots = 0;
+
+    //count any space that's null
+    for (const appointment of shallowDay[0].appointments) {
+      if (!appointments[appointment].interview) {
+        spots++;
+      };
+    }
+
+    const index = state.days.findIndex(day => day.name === state.day);
+
+    shallowDays[index] =
+    {
+      ...shallowDays[index],
+      spots
+    }
+
+    return shallowDays;
+  };
+
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -19,8 +44,9 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const days = updateSpots(state, appointments);
     return axios.put(`/api/appointments/${id}`, { interview })
-      .then(res => setState({ ...state, appointments }))
+      .then(res => setState({ ...state, appointments, days }))
   };
 
   function cancelInterview(id) {
@@ -32,8 +58,9 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
+    const days = updateSpots(state, appointments);
     return axios.delete(`/api/appointments/${id}`)
-      .then(res => setState({ ...state, appointments }))
+      .then(res => setState({ ...state, appointments, days }))
   }
 
   const setDay = day => setState({ ...state, day });
