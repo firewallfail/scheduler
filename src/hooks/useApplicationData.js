@@ -10,6 +10,7 @@ export default function useApplicationData() {
     interviewers: {}
   });
 
+  //Calculate the number of spots left in a day without modifying state
   const updateSpots = function(state, appointments) {
 
     const shallowDays = [...state.days];
@@ -35,6 +36,7 @@ export default function useApplicationData() {
     return shallowDays;
   };
 
+  //Make an axios request to the database to create a new interview
   function bookInterview(id, interview) {
     const appointment = {
       ...state.appointments[id],
@@ -49,6 +51,7 @@ export default function useApplicationData() {
       .then(res => setState(prev => ({ ...prev, appointments, days })))
   };
 
+  //Make an axios request to the database to remove an existing interview
   function cancelInterview(id) {
     const appointment = {
       ...state.appointments[id],
@@ -63,8 +66,10 @@ export default function useApplicationData() {
       .then(res => setState(prev => ({ ...prev, appointments, days })))
   }
 
+  //update day in state
   const setDay = day => setState(prev => ({ ...prev, day }));
 
+  //Pull infromation from database on initial page load
   useEffect(() => {
     Promise.all([
       axios.get("api/days"),
